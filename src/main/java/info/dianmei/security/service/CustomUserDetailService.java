@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.Collection;
@@ -20,15 +21,15 @@ import java.util.Set;
 /**
  * Created by lout on 2017/3/13.
  */
-@Component
+@Service
 public class CustomUserDetailService implements UserDetailsService{
 
     @Autowired
     UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByLoginName(s);
+    public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
+        User user = userRepository.findByLoginName(loginName);
         if(user == null) throw new UsernameNotFoundException("User not find");
         return new org.springframework.security.core.userdetails.User(
                 user.getLoginName(),
